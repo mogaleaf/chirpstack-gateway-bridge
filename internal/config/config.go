@@ -93,6 +93,7 @@ type Config struct {
 					SASTokenExpiration     time.Duration `mapstructure:"sas_token_expiration"`
 					TLSCert                string        `mapstructure:"tls_cert"`
 					TLSKey                 string        `mapstructure:"tls_key"`
+					Region                 string        `mapstructure:"region"`
 				} `mapstructure:"azure_iot_hub"`
 			} `mapstructure:"auth"`
 		} `mapstructure:"mqtt"`

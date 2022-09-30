@@ -85,8 +85,11 @@ func NewBackend(conf config.Config) (*Backend, error) {
 		if err != nil {
 			return nil, errors.Wrap(err, "integration/mqtt: new azure iot hub authentication error")
 		}
-
-		conf.Integration.MQTT.EventTopicTemplate = "devices/{{ .GatewayID }}/messages/events/{{ .EventType }}"
+		if conf.Integration.MQTT.Auth.AzureIoTHub.Region != "" {
+			conf.Integration.MQTT.EventTopicTemplate = fmt.Sprintf("devices/{{ .GatewayID }}/messages/events/event_type={{ .EventType }}&region=%s", conf.Integration.MQTT.Auth.AzureIoTHub.Region)
+		} else {
+			conf.Integration.MQTT.EventTopicTemplate = "devices/{{ .GatewayID }}/messages/events/{{ .EventType }}"
+		}
 		conf.Integration.MQTT.CommandTopicTemplate = "devices/{{ .GatewayID }}/messages/devicebound/#"
 		conf.Integration.MQTT.StateTopicTemplate = ""
 	default:
